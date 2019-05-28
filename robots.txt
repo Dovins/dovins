@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /tags/
+Allow: /categories/
+Allow: /about/
+Allow: /guestbook/
+Allow: /post/
+Allow: /page/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /lib/
+Disallow: /assets/
+Disallow: /images/
+
+Sitemap: https://www.dovins.com/sitemap.xml

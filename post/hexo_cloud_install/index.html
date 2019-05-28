@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#222">
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="referrer" content="origin">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="https://oss-hz.dovins.com/font-face.css">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1">
+
+
+  <link rel="mask-icon" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+
+  <meta name="description" content="[已弃坑]本文目的是将Hexo完全部署到阿里云服务器端，包括源码和生成的网页文件。旨在不安装FTP的前提下，完成Hexo的部署，并将Hexo根目录以Git方式关联到任意一个授权的本地电脑，以完成多终端同步。最后，绑定域名，并添加HTTPS证书。所用系统为Centos7.6(x64)">
+<meta name="keywords" content="Hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="完全部署Hexo到云服务器">
+<meta property="og:url" content="https://www.dovins.com/post/hexo_cloud_install/index.html">
+<meta property="og:site_name" content="Dawn Light">
+<meta property="og:description" content="[已弃坑]本文目的是将Hexo完全部署到阿里云服务器端，包括源码和生成的网页文件。旨在不安装FTP的前提下，完成Hexo的部署，并将Hexo根目录以Git方式关联到任意一个授权的本地电脑，以完成多终端同步。最后，绑定域名，并添加HTTPS证书。所用系统为Centos7.6(x64)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-21T08:44:45.288Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="完全部署Hexo到云服务器">
+<meta name="twitter:description" content="[已弃坑]本文目的是将Hexo完全部署到阿里云服务器端，包括源码和生成的网页文件。旨在不安装FTP的前提下，完成Hexo的部署，并将Hexo根目录以Git方式关联到任意一个授权的本地电脑，以完成多终端同步。最后，绑定域名，并添加HTTPS证书。所用系统为Centos7.6(x64)">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://www.dovins.com/post/hexo_cloud_install/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>完全部署Hexo到云服务器 | Dawn Light</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dawn Light</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-star"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.dovins.com/post/hexo_cloud_install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dovins">
+      <meta itemprop="description" content="Viva La Vida">
+      <meta itemprop="image" content="https://oss-hz.dovins.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dawn Light">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">完全部署Hexo到云服务器
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-20 15:11:59" itemprop="dateCreated datePublished" datetime="2019-05-20T15:11:59+08:00">2019-05-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-21 16:44:45" itemprop="dateModified" datetime="2019-05-21T16:44:45+08:00">2019-05-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[已弃坑]本文目的是将Hexo完全部署到阿里云服务器端，包括源码和生成的网页文件。旨在不安装FTP的前提下，完成Hexo的部署，并将Hexo根目录以Git方式关联到任意一个授权的本地电脑，以完成多终端同步。最后，绑定域名，并添加HTTPS证书。所用系统为Centos7.6(x64)<a id="more"></a></p>
+<h2 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h2><h3 id="密钥对"><a href="#密钥对" class="headerlink" title="密钥对"></a>密钥对</h3><p>创建密钥对用以Xshell远程连接到服务器</p>
+<h3 id="安全组"><a href="#安全组" class="headerlink" title="安全组"></a>安全组</h3><p>入方向放行80(HTTP)和443(HTTPS)端口，以及用于调试的4000端口</p>
+<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><h3 id="更新系统"><a href="#更新系统" class="headerlink" title="更新系统"></a>更新系统</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">update</span> -<span class="built_in">y</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> gcc-c++ make -y</span><br><span class="line">yum <span class="keyword">install</span> nodejs -y</span><br></pre></td></tr></table></figure>
+<h3 id="安装Git和Nginx"><a href="#安装Git和Nginx" class="headerlink" title="安装Git和Nginx"></a>安装Git和Nginx</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> git nginx -y</span><br></pre></td></tr></table></figure>
+<h3 id="安装Hexo-1"><a href="#安装Hexo-1" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-cli hexo-<span class="keyword">server</span> -g</span><br></pre></td></tr></table></figure>
+<h3 id="初始化Hexo"><a href="#初始化Hexo" class="headerlink" title="初始化Hexo"></a>初始化Hexo</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hexo init hexo</span></span><br></pre></td></tr></table></figure>
+<p>切换到Hexo目录</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> hexo</span><br><span class="line">hexo clean</span><br><span class="line">hexo <span class="keyword">g</span></span><br><span class="line">hexo <span class="built_in">s</span></span><br></pre></td></tr></table></figure>
+<p>这样就可以在<span class="exturl" data-url="aHR0cDovL2lwOjQwMDDnnIvliLDpu5jorqTnmoRIZXhv572R56uZ5LqG" title="http://ip:4000看到默认的Hexo网站了">http://ip:4000看到默认的Hexo网站了<i class="fa fa-external-link"></i></span></p>
+<h3 id="安装Next主题"><a href="#安装Next主题" class="headerlink" title="安装Next主题"></a>安装Next主题</h3><p>在Hexo目录下执行</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/theme-<span class="keyword">next</span>/hexo-theme-<span class="keyword">next</span> themes/<span class="keyword">next</span></span><br></pre></td></tr></table></figure>
+<p>编辑站点配置文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">vim</span> _<span class="selector-tag">config</span><span class="selector-class">.yml</span></span><br></pre></td></tr></table></figure>
+<p>按i键进入编辑模式，修改主题为Next</p>
+<p>按Esc，输入:wq，保存并退出</p>
+<h2 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h2><h3 id="开启Nginx服务"><a href="#开启Nginx服务" class="headerlink" title="开启Nginx服务"></a>开启Nginx服务</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> nginx.service</span><br></pre></td></tr></table></figure>
+<p>此时输入服务器ip可看到Nginx欢迎页面</p>
+<h3 id="修改Nginx配置"><a href="#修改Nginx配置" class="headerlink" title="修改Nginx配置"></a>修改Nginx配置</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> /etc/nginx/nginx.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+<p>把user改为root，把root目录设为/root/hexo/public</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span> root;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span> default_server;</span><br><span class="line">        <span class="attribute">listen</span>       [::]:<span class="number">80</span> default_server;</span><br><span class="line">        <span class="attribute">server_name</span>  _;</span><br><span class="line">        <span class="attribute">root</span>        /root/hexo/public;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Load configuration files for the default server block.</span></span><br><span class="line">        <span class="attribute">include</span> /etc/nginx/default.d/<span class="regexp">*.conf</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="重启Nginx服务"><a href="#重启Nginx服务" class="headerlink" title="重启Nginx服务"></a>重启Nginx服务</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nginx -s reload</span></span><br></pre></td></tr></table></figure>
+<p>此时浏览器输入服务器IP，即可打开网站了</p>
+<h2 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h2><p>将域名A记录解析到服务器IP</p>
+<p>修改站点配置文件_config.yml，将url设为该域名</p>
+<p><del>在Nginx配置文件中（见上文），修改server_name为你的域名即可</del>（实测不需要修改）</p>
+<h2 id="配置Git"><a href="#配置Git" class="headerlink" title="配置Git"></a>配置Git</h2><p>……这部分我暂时搞不定，请自行查资料，以下是一些探索过程</p>
+<h3 id="1-未完成"><a href="#1-未完成" class="headerlink" title="-1(未完成)"></a>-1(未完成)</h3><p>这个方案是要把Hexo文件夹整个作为Git仓库，以便随时pull和push。</p>
+<p>依次执行以下命令：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adduser git</span><br><span class="line">passwd git</span><br><span class="line">su git</span><br><span class="line"><span class="keyword">cd</span></span><br><span class="line">mkdir <span class="string">.ssh</span> &amp;&amp; chmod 700 <span class="string">.ssh</span></span><br><span class="line">touch <span class="string">.ssh/authorized_keys</span> &amp;&amp; chmod 600 <span class="string">.ssh/authorized_keys</span></span><br></pre></td></tr></table></figure>
+<p>电脑命令提示符执行</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh-keygen</span> <span class="selector-tag">-t</span> <span class="selector-tag">rsa</span> <span class="selector-tag">-C</span> "914204612@<span class="keyword">qq</span>.<span class="keyword">com</span>"</span><br></pre></td></tr></table></figure>
+<p>在<code>C:\Users\LiYang\.ssh</code>目录下得到<code>id_rsa.pub</code>公钥，Notepad++打开，复制全部内容</p>
+<p>在云服务器根目录下创建public_keys文件夹，创建并编辑id_rsa.pub文件：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span></span><br><span class="line"><span class="built_in">mkdir</span> public_keys</span><br><span class="line"><span class="keyword">vim</span> id_rsa.pub</span><br></pre></td></tr></table></figure>
+<p>把公钥粘贴进去，保存</p>
+<p>编辑authorized_keys</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/root/</span>.ssh<span class="regexp">/authorized_keys</span></span><br></pre></td></tr></table></figure>
+<p>将公钥文件加入进来，添加一行如下</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/root/</span>public_keys<span class="regexp">/id_rsa.pub</span></span><br></pre></td></tr></table></figure>
+<p>把hexo的source文件夹设为Git仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> hexo/<span class="built_in">source</span></span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>这里遇到了问题，没有正确地创建仓库，待解决</p>
+<p>搜索：自建Git服务器</p>
+<h3 id="2-未完成"><a href="#2-未完成" class="headerlink" title="-2(未完成)"></a>-2(未完成)</h3><p>这是在昨天的基础上重新走一遍流程，依然没有成功</p>
+<p>查看系统用户：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="regexp">/etc/</span>passwd</span><br></pre></td></tr></table></figure>
+<p>删除系统已有的Git用户及其目录：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">userdel -r git</span></span><br></pre></td></tr></table></figure>
+<p>安装和配置Git</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装Git</span></span><br><span class="line">yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-devel</span><br><span class="line">yum install git</span><br><span class="line"><span class="comment"># 添加用户git</span></span><br><span class="line">useradd git</span><br><span class="line"><span class="comment"># 为用户git配置SSH</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/home/git/</span></span><br><span class="line">mkdir <span class="string">.ssh</span></span><br><span class="line">chmod 755 <span class="string">.ssh</span></span><br><span class="line">touch <span class="string">.ssh/authorized_keys</span></span><br><span class="line">chmod 644 <span class="string">.ssh/authorized_keys</span></span><br><span class="line">vim <span class="string">.ssh/authorized_keys</span></span><br><span class="line"><span class="comment"># 然后把公钥内容粘贴进去，一行一个</span></span><br><span class="line"><span class="comment"># 尝试将Hexo目录(非空)变成一个仓库</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/root</span></span><br><span class="line">chown git<span class="function">:git</span> hexo/</span><br><span class="line"><span class="keyword">cd</span> <span class="string">/root/hexo</span></span><br><span class="line">git init</span><br><span class="line">chown -R git<span class="function">:git</span> <span class="string">.git</span></span><br><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<p>已尝试hooks里的work-tree设为/root/hexo，但还是clone不下来，只差最后一块敲门砖了</p>
+<p>配置Git Hooks示例如下：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/var/</span>repo<span class="regexp">/blog.git/</span>hooks<span class="regexp">/post-receive</span></span><br></pre></td></tr></table></figure>
+<p>添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">git --work-tree=/root/hexo --git-dir=/var/repo/blog.git checkout -f</span><br></pre></td></tr></table></figure>
+<p>然而始终无法正确地把仓库clone下来：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git<span class="variable">@47</span>.<span class="number">100.160</span>.<span class="number">191</span><span class="symbol">:/root/hexo/</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>fatal: ‘/root/hexo/‘ does not appear to be a git repository<br>fatal: Could not read from remote repository.</p>
+</blockquote>
+<h3 id="3-无实际价值"><a href="#3-无实际价值" class="headerlink" title="-3(无实际价值)"></a>-3(无实际价值)</h3><p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zNDQwNTkyNS9hcnRpY2xlL2RldGFpbHMvODY3ODM0MDY=" title="https://blog.csdn.net/weixin_34405925/article/details/86783406">https://blog.csdn.net/weixin_34405925/article/details/86783406<i class="fa fa-external-link"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zNjQwMTA0Ni9hcnRpY2xlL2RldGFpbHMvNTI5NDAzMTM=" title="https://blog.csdn.net/weixin_36401046/article/details/52940313">https://blog.csdn.net/weixin_36401046/article/details/52940313<i class="fa fa-external-link"></i></span></p>
+<p>这个方案很奇怪，已按他的步骤实现了deploy到某个文件夹，并设置了Nginx指向该文件夹。但可以说是绕圈回原点，服务器自己给自己推送public文件夹是没有必要的，这是简单修改一下Nginx配置文件就可以做的事情</p>
+<h2 id="配置HTTPS证书-未完成"><a href="#配置HTTPS证书-未完成" class="headerlink" title="配置HTTPS证书(未完成)"></a>配置HTTPS证书(未完成)</h2><p>这部分的目标是实现Let’s Encrypt证书的部署和自动续期</p>
+<p>部署在阿里云服务器的Hexo站点：</p>
+<p><del><span class="exturl" data-url="aHR0cDovL2hleG8uZG92aW5zLmNvbS8=" title="http://hexo.dovins.com/">http://hexo.dovins.com/<i class="fa fa-external-link"></i></span></del></p>
+<p>暂时脱坑，我先拿服务器玩点别的……来个WordPress吧</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Dovins</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://www.dovins.com/post/hexo_cloud_install/" title="完全部署Hexo到云服务器">https://www.dovins.com/post/hexo_cloud_install/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/ios_software/" rel="next" title="iOS软件推荐">
+                <i class="fa fa-chevron-left"></i> iOS软件推荐
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://oss-hz.dovins.com/avatar.jpg" alt="Dovins">
+            
+              <p class="site-author-name" itemprop="name">Dovins</p>
+              <div class="site-description motion-element" itemprop="description">Viva La Vida</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <span class="exturl" data-url="bWFpbHRvOmlAZG92aW5zLmNvbQ==" title="Mail to me &rarr; mailto:i@dovins.com"><i class="fa fa-fw fa-envelope"></i>Mail to me</span>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS85YzNmZTI1MTQ2ZmM=" title="https://www.jianshu.com/u/9c3fe25146fc">简书</span>
+                  </li>
+                
+              </ul>
+		      <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/25/2019 14:16:41");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+            </div>
+          
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/25/2019 14:16:41");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本设置"><span class="nav-number">1.</span> <span class="nav-text">基本设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#密钥对"><span class="nav-number">1.1.</span> <span class="nav-text">密钥对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全组"><span class="nav-number">1.2.</span> <span class="nav-text">安全组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Hexo"><span class="nav-number">2.</span> <span class="nav-text">安装Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新系统"><span class="nav-number">2.1.</span> <span class="nav-text">更新系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Node-js"><span class="nav-number">2.2.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Git和Nginx"><span class="nav-number">2.3.</span> <span class="nav-text">安装Git和Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Hexo-1"><span class="nav-number">2.4.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化Hexo"><span class="nav-number">2.5.</span> <span class="nav-text">初始化Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Next主题"><span class="nav-number">2.6.</span> <span class="nav-text">安装Next主题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Nginx"><span class="nav-number">3.</span> <span class="nav-text">配置Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开启Nginx服务"><span class="nav-number">3.1.</span> <span class="nav-text">开启Nginx服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Nginx配置"><span class="nav-number">3.2.</span> <span class="nav-text">修改Nginx配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启Nginx服务"><span class="nav-number">3.3.</span> <span class="nav-text">重启Nginx服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定域名"><span class="nav-number">4.</span> <span class="nav-text">绑定域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Git"><span class="nav-number">5.</span> <span class="nav-text">配置Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-未完成"><span class="nav-number">5.1.</span> <span class="nav-text">-1(未完成)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-未完成"><span class="nav-number">5.2.</span> <span class="nav-text">-2(未完成)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-无实际价值"><span class="nav-number">5.3.</span> <span class="nav-text">-3(无实际价值)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置HTTPS证书-未完成"><span class="nav-number">6.</span> <span class="nav-text">配置HTTPS证书(未完成)</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dovins</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">蜀ICP备19012306号</a></div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+  <script src="/js/exturl.js?v=7.1.1"></script>
+
+
+  
+  
+  
+
+  
+
+  
+  
+  
+
+
+  
+  
+
+  
+
+<script src="https://www.dovins.com/js/av-min.js"></script>
+
+
+
+  
+
+<script src="https://www.dovins.com/js/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'wExtNHjptcxbAcXiwYU8Elyh-9Nh9j0Va',
+    appKey: 'IzqSGOQH0eadGAeVIFmyvfA6',
+    placeholder: '»在此处撰写留言',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

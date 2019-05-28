@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#222">
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="referrer" content="origin">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="https://oss-hz.dovins.com/font-face.css">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1">
+
+
+  <link rel="mask-icon" href="https://oss-hz.dovins.com/favicon.ico?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+
+  <meta name="description" content="本文是我配置Next主题的笔记，记录一些关键点和有价值的内容，包括外观自定义，禁用页面缩放，阿里云OSS+CDN托管Google字体，自行托管Javascript文件，侧栏加入站点运行时间，设定首页和归档页分页，自定义鼠标指针，一键生成/预览/部署脚本等">
+<meta name="keywords" content="Next">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next主题优化和配置笔记">
+<meta property="og:url" content="https://www.dovins.com/post/next_custom/index.html">
+<meta property="og:site_name" content="Dawn Light">
+<meta property="og:description" content="本文是我配置Next主题的笔记，记录一些关键点和有价值的内容，包括外观自定义，禁用页面缩放，阿里云OSS+CDN托管Google字体，自行托管Javascript文件，侧栏加入站点运行时间，设定首页和归档页分页，自定义鼠标指针，一键生成/预览/部署脚本等">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-20T14:18:58.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Next主题优化和配置笔记">
+<meta name="twitter:description" content="本文是我配置Next主题的笔记，记录一些关键点和有价值的内容，包括外观自定义，禁用页面缩放，阿里云OSS+CDN托管Google字体，自行托管Javascript文件，侧栏加入站点运行时间，设定首页和归档页分页，自定义鼠标指针，一键生成/预览/部署脚本等">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://www.dovins.com/post/next_custom/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Next主题优化和配置笔记 | Dawn Light</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dawn Light</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-star"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.dovins.com/post/next_custom/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dovins">
+      <meta itemprop="description" content="Viva La Vida">
+      <meta itemprop="image" content="https://oss-hz.dovins.com/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dawn Light">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Next主题优化和配置笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-09 21:27:57" itemprop="dateCreated datePublished" datetime="2019-05-09T21:27:57+08:00">2019-05-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:18:58" itemprop="dateModified" datetime="2019-05-20T22:18:58+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Next/" itemprop="url" rel="index"><span itemprop="name">Next</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是我配置Next主题的笔记，记录一些关键点和有价值的内容，包括外观自定义，禁用页面缩放，阿里云OSS+CDN托管Google字体，自行托管Javascript文件，侧栏加入站点运行时间，设定首页和归档页分页，自定义鼠标指针，一键生成/预览/部署脚本等<a id="more"></a></p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p><span class="exturl" data-url="aHR0cHM6Ly9ub2RlanMub3JnL2VuLw==" title="https://nodejs.org/en/">Node.js<i class="fa fa-external-link"></i></span>: 10.15.3 (x64)</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ2l0LXNjbS5jb20v" title="https://www.git-scm.com/">Git<i class="fa fa-external-link"></i></span>: 2.21.0.windows.1</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlvL3poLWNuLw==" title="https://hexo.io/zh-cn/">Hexo<i class="fa fa-external-link"></i></span>: 3.8.0 &amp; hexo-cli: 1.1.0</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3RoZW1lLW5leHQvaGV4by10aGVtZS1uZXh0" title="https://github.com/theme-next/hexo-theme-next">Next<i class="fa fa-external-link"></i></span>: 7.1.1</p>
+<p>以上版本可以在相应命令行里用-v或者–version查看</p>
+<h2 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h2><p>尽可能只修改以下文件：</p>
+<p>Hexo站点配置文件<code>_config.yml</code>，位于Hexo站点根目录<code>../Hexo/</code></p>
+<p>Next主题配置文件<code>_config.yml</code>，位于Next主题根目录<code>../Hexo/themes/next/</code></p>
+<p>Next主题自定义css文件<code>custom.styl</code>，位于<code>../Hexo/themes/next/source/css/_custom/</code></p>
+<p>复杂一点的功能，需要修改<code>../Hexo/themes/next-reloaded/layout/</code>目录下的文件</p>
+<h2 id="子主题和外观自定义"><a href="#子主题和外观自定义" class="headerlink" title="子主题和外观自定义"></a>子主题和外观自定义</h2><p>子主题为Mist7.1.1</p>
+<p>外观部分主要是借助修改Hexo站点配置文件<code>_config.yml</code>，Next主题配置文件<code>_config.yml</code>，Next主题自定义css文件<code>custom.styl</code>来实现的。除非必要请不要改动Hexo或主题的源码，容易让你的思路混乱，出错了不好还原，另外也不利于版本升级。</p>
+<p>修改<code>custom.styl</code>文件时请在每一段自定义css前面用//加上一行注释，方便回溯。</p>
+<p>自定义css主要借助Chrome浏览器的F12控制台，结合inspect工具定位代码，以及在Elements&gt;Styles中调试代码，满意后copy到<code>custom.styl</code>中即可，这部分需要新手在实践中提升动手能力。</p>
+<h2 id="特殊配置"><a href="#特殊配置" class="headerlink" title="特殊配置"></a>特殊配置</h2><h3 id="禁用页面缩放"><a href="#禁用页面缩放" class="headerlink" title="禁用页面缩放"></a>禁用页面缩放</h3><p>开启Valine评论后，我发现在移动端点击评论输入框，浏览器会自作主张地放大页面（为了让我看的更清楚），而且输入完毕后不会还原，需要手动缩放回来，这样既不美观也不方便。</p>
+<p>解决方法：修改<code>../Hexo/themes/next-reloaded/layout/_partials/head/head.swig</code>文件</p>
+<p>在文件顶部的<code>&lt;meta&gt;</code>区新增一行：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta <span class="attr">name="viewport"</span> <span class="attr">content="width=device-width,height=device-height,initial-scale=1.0,</span> <span class="attr">minimum-scale=1.0,</span> <span class="attr">maximum-scale=1.0,</span> <span class="attr">user-scalable=no"/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这行代码定义视窗锁定在原始大小，不允许用户手动缩放（微信/QQ内置浏览器不可以缩放，Safari/Chrome仍可以手动缩放），无论如何，点击Valine评论输入框时，将不会再出现窗口自动放大的问题了。</p>
+<h3 id="阿里云OSS-CDN托管Google字体"><a href="#阿里云OSS-CDN托管Google字体" class="headerlink" title="阿里云OSS+CDN托管Google字体"></a>阿里云OSS+CDN托管Google字体</h3><p>通过解析从字体CDN服务器返回的font-family文件，统一替换字体url为自建oss，添加镜像回源，实现将Google字体托管到自建阿里云OSS+CDN，保证网络字体加载的可用性和稳定性。</p>
+<p>首先要在Next主题配置文件<code>_config.yml</code>中的Font Settings部分将enable设为true，设置host，把你需要的字体都设置好，保存。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">font:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  host:</span> <span class="attr">https://fonts.googleapis.com</span></span><br><span class="line"><span class="attr">  global:</span></span><br><span class="line"><span class="attr">    external:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    family:</span> <span class="string">//设定为你要的字体</span></span><br><span class="line"><span class="attr">    size:</span> <span class="string">//可留空</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+<p>然后打开localhost查看本地网站，在Chrome的调试台的Network选项卡下找到来自<code>https://fonts.googleapis.com</code>返回的一个字体样式表.css文件，具体名字是<code>css?family=...</code>这样的，右键把它保存到本地命名为<code>font-face.css</code>。打开看这个表里会有数百个形如</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* vietnamese */</span></span><br><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Muli'</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">400</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">'Muli Regular'</span>), <span class="built_in">local</span>(<span class="string">'Muli-Regular'</span>), <span class="built_in">url</span>(https://fonts.gstatic.com/s/muli/v13/7Auwp_0qiz-afT3GLRrX.woff2) <span class="built_in">format</span>(<span class="string">'woff2'</span>);</span><br><span class="line">  <span class="attribute">unicode-range</span>: U+<span class="number">0102</span>-<span class="number">0103</span>, U+<span class="number">0110</span>-<span class="number">0111</span>, U+<span class="number">1</span>EA0-<span class="number">1</span>EF9, U+<span class="number">20</span>AB;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的代码块，用Notepad++打开，把里边的链接<code>https://fonts.gstatic.com</code>批量替换为你的OSS域名，然后上传到OSS的根目录。在OSS里配置镜像回源，回源地址为<code>https://fonts.gstatic.com</code>，这样就会自动抓取所需的Google服务器上的字体到OSS里，然后再返回到客户端。</p>
+<p>还需要修改主题目录下的文件<code>external-fonts.swig</code>，<code>-</code>表示删除，<code>+</code>表示增加</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- &lt;link <span class="attribute">rel</span>=<span class="string">"stylesheet"</span> <span class="attribute">href</span>=<span class="string">"&#123;&#123; font_host &#125;&#125;/css?family=&#123;&#123; font_families &#125;&#125;"</span>/&gt;</span><br><span class="line">+ &lt;link <span class="attribute">rel</span>=<span class="string">"stylesheet"</span> <span class="attribute">href</span>=<span class="string">"https://oss地址/font-face.css"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>注意：最好有一个备案了的域名，用于开启CDN，否则影响自建字体CDN的效果。</p>
+<p>特别感谢：<span class="exturl" data-url="aHR0cDovL3d3dy5tenl5dW4uY29tL3N0dWR5L2dvb2dsZS1mb250cy1jZG4uaHRtbA==" title="http://www.mzyyun.com/study/google-fonts-cdn.html">http://www.mzyyun.com/study/google-fonts-cdn.html<i class="fa fa-external-link"></i></span></p>
+<h3 id="自行托管Javascript文件"><a href="#自行托管Javascript文件" class="headerlink" title="自行托管Javascript文件"></a>自行托管Javascript文件</h3><p>如果你的服务器访问速度快或者有上CDN，那么和上边的道理类似，但是可以简单地把js文件保存到../Hexo/themes/next/source/js/文件夹里，然后在Next主题_config.yml文件的Vendors选项卡里把相应的js的来源设置为<code>https://www.yourdomain.com/js/xxx.js</code></p>
+<p>有时候这样做的收益不是很明显，并且需要手动去更新js文件了。</p>
+<h3 id="侧栏加入站点运行时间"><a href="#侧栏加入站点运行时间" class="headerlink" title="侧栏加入站点运行时间"></a>侧栏加入站点运行时间</h3><p>参考这个大佬的方案：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9yZXVpeGl5LmdpdGh1Yi5pby90ZWNobm9sb2d5L2NvbXB1dGVyL2NvbXB1dGVyLWFpZGVkLWFydC8yMDE3LzA2LzA5L2hleG8tbmV4dC1vcHRpbWl6YXRpb24uaHRtbA==" title="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html">https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html<i class="fa fa-external-link"></i></span></p>
+<p>编辑<code>../hexo/themes/next/layout/_custom/sidebar.swig</code>，加入以下代码</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"days"</span>&gt;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">function show_date_time()&#123;</span><br><span class="line">window.setTimeout(<span class="string">"show_date_time()"</span>, 1000);</span><br><span class="line">BirthDay=new Date(<span class="string">"05/27/2017 15:13:14"</span>);</span><br><span class="line">today=new Date();</span><br><span class="line">timeold=(today.getTime()-BirthDay.getTime());</span><br><span class="line">sectimeold=timeold/1000</span><br><span class="line">secondsold=Math.floor(sectimeold);</span><br><span class="line">msPerDay=24*60*60*1000</span><br><span class="line">e_daysold=timeold/msPerDay</span><br><span class="line">daysold=Math.floor(e_daysold);</span><br><span class="line">e_hrsold=(e_daysold-daysold)*24;</span><br><span class="line">hrsold=setzero(Math.floor(e_hrsold));</span><br><span class="line">e_minsold=(e_hrsold-hrsold)*60;</span><br><span class="line">minsold=setzero(Math.floor((e_hrsold-hrsold)*60));</span><br><span class="line">seconds=setzero(Math.floor((e_minsold-minsold)*60));</span><br><span class="line">document.getElementById('days').innerHTML=<span class="string">"已运行 "</span>+daysold+<span class="string">" 天 "</span>+hrsold+<span class="string">" 小时 "</span>+minsold+<span class="string">" 分 "</span>+seconds+<span class="string">" 秒"</span>;</span><br><span class="line">&#125;</span><br><span class="line">function setzero(i)&#123;</span><br><span class="line">if (i&lt;10)</span><br><span class="line">&#123;i=<span class="string">"0"</span> + i&#125;;</span><br><span class="line">return i;</span><br><span class="line">&#125;</span><br><span class="line">show_date_time();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>上面<code>Date</code>的值改为你自己的</p>
+<p>然后编辑<code>../hexo/themes/next/layout/_macro/sidebar.swig</code>，在<code>+</code>号位置增加一行：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">        </span><span class="comment">&#123;# Blogroll #&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">        </span><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> theme.links %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"links-of-blogroll motion-element </span></span></span><span class="template-variable">&#123;&#123; "links-of-blogroll-" + theme.links_layout | default('inline') &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"links-of-blogroll-title"</span>&gt;</span></span></span><br><span class="line"><span class="xml">              <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa  fa-fw fa-</span></span></span><span class="template-variable">&#123;&#123; theme.links_icon | default('globe') | lower &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br><span class="line"><span class="xml">              </span><span class="template-variable">&#123;&#123; theme.links_title &#125;&#125;</span><span class="xml">&amp;nbsp;</span></span><br><span class="line"><span class="xml">              <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa  fa-fw fa-</span></span></span><span class="template-variable">&#123;&#123; theme.links_icon | default('globe') | lower &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"links-of-blogroll-list"</span>&gt;</span></span></span><br><span class="line"><span class="xml">              </span><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> name, link <span class="keyword">in</span> theme.links %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"links-of-blogroll-item"</span>&gt;</span></span></span><br><span class="line"><span class="xml">                  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"</span></span></span><span class="template-variable">&#123;&#123; link &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">title</span>=<span class="string">"</span></span></span><span class="template-variable">&#123;&#123; name &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span></span><span class="template-variable">&#123;&#123; name &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="xml">              </span><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="xml">+        </span><span class="template-tag">&#123;% <span class="name"><span class="name">include</span></span> '../_custom/sidebar.swig' %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">         </span><span class="template-tag">&#123;% <span class="name"><span class="name">endif</span></span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
+<p>注意Next主题的_config.yml文件里的Blog rolls选项卡下要有链接，才能保证收起侧栏时运行时间动画的正常展示。</p>
+<h3 id="设定首页和归档页分页"><a href="#设定首页和归档页分页" class="headerlink" title="设定首页和归档页分页"></a>设定首页和归档页分页</h3><p>在站点配置文件_config.yml的相应位置编辑：（其中index_generator已存在）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首页分页</span></span><br><span class="line"><span class="attr">index_generator:</span></span><br><span class="line"><span class="attr">  path:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">  per_page:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">  order_by:</span> <span class="bullet">-date</span></span><br><span class="line"><span class="comment">#归档页分页  </span></span><br><span class="line"><span class="attr">archive_generator:</span></span><br><span class="line"><span class="attr">  path:</span> <span class="string">'archives'</span></span><br><span class="line"><span class="attr">  per_page:</span> <span class="number">10</span></span><br><span class="line"><span class="attr">  order_by:</span> <span class="bullet">-date</span></span><br></pre></td></tr></table></figure>
+<p>我尝试用以下代码把标签页和分类页也进行分页，但是不生效，不知为何</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#标签页分页,不生效 </span></span><br><span class="line"><span class="attr">tag_generator:</span></span><br><span class="line"><span class="attr">  path:</span> <span class="string">'tags'</span></span><br><span class="line"><span class="attr">  per_page:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  order_by:</span> <span class="bullet">-date</span></span><br><span class="line"><span class="comment">#分类页分页，不生效</span></span><br><span class="line"><span class="attr">category_generator:</span> </span><br><span class="line"><span class="attr">  path:</span> <span class="string">'categories'</span></span><br><span class="line"><span class="attr">  per_page:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  order_by:</span> <span class="bullet">-date</span></span><br></pre></td></tr></table></figure>
+<h3 id="自定义鼠标指针"><a href="#自定义鼠标指针" class="headerlink" title="自定义鼠标指针"></a>自定义鼠标指针</h3><p>打开<code>../hexo/themes/next/source/css/_custom/custom.styl</code>，添加如下代码</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 鼠标样式</span></span><br><span class="line">  * &#123;</span><br><span class="line">      <span class="attribute">cursor</span>: url(<span class="string">"指针的ico链接"</span>),auto<span class="meta">!important</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-pseudo">:active</span> &#123;</span><br><span class="line">      <span class="attribute">cursor</span>: url(<span class="string">"指针的ico链接"</span>),auto<span class="meta">!important</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>其中 url 里面必须是 ico 图片。来源：<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9mMDU0MzMzYWM5ZTY=" title="https://www.jianshu.com/p/f054333ac9e6">https://www.jianshu.com/p/f054333ac9e6<i class="fa fa-external-link"></i></span></p>
+<h2 id="普通修改"><a href="#普通修改" class="headerlink" title="普通修改"></a>普通修改</h2><p>很多都可以在Hexo站点配置文件<code>_config.yml</code>，Next主题配置文件<code>_config.yml</code>，Next主题自定义css文件<code>custom.styl</code>里完成。</p>
+<p>注：只需保持hexo s的本地预览状态，你自定义的css，文章和页面的增删改，大部分_config.yml配置的修改，都会在文件保存后实时生效，不需要重新生成。</p>
+<p>其他的修改可能需要重新hexo clean, hexo g, hexo s</p>
+<h2 id="一键生成-预览-部署脚本"><a href="#一键生成-预览-部署脚本" class="headerlink" title="一键生成/预览/部署脚本"></a>一键生成/预览/部署脚本</h2><p>厌倦了在命令行里反复敲击单调乏味的hexo clean, hexo g, hexo s, hexo d等命令，想要一键完成？很简单。</p>
+<p>假设你的Hexo安装目录为：C:\Hexo</p>
+<p>在任何位置（我是放在了Hexo目录下方便查找）新建一个文本文档，名为all-in-one.txt</p>
+<p>根据你的需求从下边的代码中选择一个复制进去</p>
+<figure class="highlight shell"><figcaption><span>#本地预览</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd  C:\Hexo&amp;&amp;hexo clean&amp;&amp;hexo g&amp;&amp;hexo s</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><figcaption><span>#一键部署</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd  C:\Hexo&amp;&amp;hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<p>第一个代码实现的是本地预览</p>
+<p>第二个代码是一键生成和部署</p>
+<p>记得修改代码里的<code>C:\Hexo</code>为你的目录。</p>
+<p>修改文件后缀为<code>.bat</code>，你就得到了一个可执行脚本<code>all-in-one.bat</code>，直接运行即可。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p><strong>Less is more</strong>，保留最核心的功能，在美观大方实用的基础上，把更多的精力放在内容和性能优化上。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Dovins</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://www.dovins.com/post/next_custom/" title="Next主题优化和配置笔记">https://www.dovins.com/post/next_custom/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Next/" rel="tag"># Next</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/wallpaper/" rel="next" title="壁纸">
+                <i class="fa fa-chevron-left"></i> 壁纸
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/plugins_for_next/" rel="prev" title="Next主题插件笔记">
+                Next主题插件笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://oss-hz.dovins.com/avatar.jpg" alt="Dovins">
+            
+              <p class="site-author-name" itemprop="name">Dovins</p>
+              <div class="site-description motion-element" itemprop="description">Viva La Vida</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <span class="exturl" data-url="bWFpbHRvOmlAZG92aW5zLmNvbQ==" title="Mail to me &rarr; mailto:i@dovins.com"><i class="fa fa-fw fa-envelope"></i>Mail to me</span>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS85YzNmZTI1MTQ2ZmM=" title="https://www.jianshu.com/u/9c3fe25146fc">简书</span>
+                  </li>
+                
+              </ul>
+		      <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/25/2019 14:16:41");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+            </div>
+          
+
+          
+            
+          
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("04/25/2019 14:16:41");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原则"><span class="nav-number">2.</span> <span class="nav-text">原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子主题和外观自定义"><span class="nav-number">3.</span> <span class="nav-text">子主题和外观自定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊配置"><span class="nav-number">4.</span> <span class="nav-text">特殊配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#禁用页面缩放"><span class="nav-number">4.1.</span> <span class="nav-text">禁用页面缩放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阿里云OSS-CDN托管Google字体"><span class="nav-number">4.2.</span> <span class="nav-text">阿里云OSS+CDN托管Google字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自行托管Javascript文件"><span class="nav-number">4.3.</span> <span class="nav-text">自行托管Javascript文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#侧栏加入站点运行时间"><span class="nav-number">4.4.</span> <span class="nav-text">侧栏加入站点运行时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设定首页和归档页分页"><span class="nav-number">4.5.</span> <span class="nav-text">设定首页和归档页分页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义鼠标指针"><span class="nav-number">4.6.</span> <span class="nav-text">自定义鼠标指针</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#普通修改"><span class="nav-number">5.</span> <span class="nav-text">普通修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一键生成-预览-部署脚本"><span class="nav-number">6.</span> <span class="nav-text">一键生成/预览/部署脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">7.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dovins</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">蜀ICP备19012306号</a></div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+  <script src="/js/exturl.js?v=7.1.1"></script>
+
+
+  
+  
+  
+
+  
+
+  
+  
+  
+
+
+  
+  
+
+  
+
+<script src="https://www.dovins.com/js/av-min.js"></script>
+
+
+
+  
+
+<script src="https://www.dovins.com/js/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'wExtNHjptcxbAcXiwYU8Elyh-9Nh9j0Va',
+    appKey: 'IzqSGOQH0eadGAeVIFmyvfA6',
+    placeholder: '»在此处撰写留言',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>
